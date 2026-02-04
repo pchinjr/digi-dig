@@ -6,13 +6,26 @@ import AppWindow from '@/components/AppWindow';
 import { CAMERAS } from '@/data/mockData';
 import CameraCard from '@/components/CameraCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, LogOut } from 'lucide-react';
+import { MapPin, LogOut, Loader2 } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { Link, Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Profile = () => {
-  const { user, logout } = useUser();
+  const { user, logout, isLoading } = useUser();
+
+  if (isLoading) {
+    return (
+      <AppLayout>
+        <AppWindow title="Loading Profile" className="w-full max-w-4xl">
+          <div className="flex flex-col items-center justify-center p-10">
+            <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+            <p className="mt-4 text-sm text-gray-500">Loading user data...</p>
+          </div>
+        </AppWindow>
+      </AppLayout>
+    );
+  }
 
   if (!user) {
     // Redirect to login if not authenticated

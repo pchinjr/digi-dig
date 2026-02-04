@@ -6,27 +6,41 @@ import AppWindow from '@/components/AppWindow';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Camera, LogIn } from 'lucide-react';
+import { Camera, LogIn, Loader2 } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { useNavigate, Navigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user, login } = useUser();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user, login, isLoading } = useUser();
   const navigate = useNavigate();
 
   // If the user is already logged in, redirect them to the profile page
-  if (user) {
+  if (user && !isLoading) {
     return <Navigate to="/profile" replace />;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (login(username, password)) {
-      navigate('/profile');
-    }
+    setIsSubmitting(true);
+    await login(email, password);
+    setIsSubmitting(false);
   };
+
+  if (isLoading) {
+    return (
+      <AppLayout>
+        <AppWindow title="Loading Session" className="w-full max-w-md">
+          <div className="flex flex-col items-center justify-center p-10">
+            <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+            <p className="mt-4 text-sm text-gray-500">Checking session...</p>
+          </div>
+        </AppWindow>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
@@ -37,18 +51,18 @@ const LoginPage = () => {
               <Camera size={24} />
             </div>
             <h2 className="text-xl font-black text-gray-900">User Authentication</h2>
-            <p className="text-xs text-gray-500">Use mock credentials: pixel_queen / password</p>
+            <p className="text-xs text-gray-500">Use your registered email and password.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input 
-                id="username" 
-                type="text" 
-                placeholder="pixel_queen" 
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email" 
+                type="email" 
+                placeholder="user@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
                 required
               />
@@ -58,7 +72,7 @@ const LoginPage = () => {
               <Input 
                 id="password" 
                 type="password" 
-                placeholder="password" 
+                placeholder="••••••••" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
@@ -68,11 +82,20 @@ const LoginPage = () => {
             <Button 
               type="submit" 
               className="w-full rounded-full bg-pink-500 hover:bg-pink-600 text-white h-10 font-bold shadow-lg shadow-pink-500/30 transition-all"
+              disabled={isSubmitting}
             >
-              <LogIn size={16} className="mr-2" />
-              Log In
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <LogIn size={16} className="mr-2" />
+              )}
+              {isSubmitting ? 'Logging In...' : 'Log In'}
             </Button>
           </form>
+          
+          <p className="text-center text-sm text-gray-500">
+            Don't have an account? <span className="text-pink-500 font-semibold cursor-pointer hover:underline">Sign Up (Not yet implemented)</span>
+          </p>
         </div>
       </AppWindow>
     </AppLayout>
