@@ -55,7 +55,7 @@ export const CAMERAS: Camera[] = [
     year: 2004,
     megapixels: 4.0,
     sensorType: "CCD",
-    image: "https://images.unsplash.com/photo-1526170315873-3a98658c7a6a?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&q=80&w=800",
     description: "The most whimsical design of the era. Weather-proof and incredibly stylish."
   }
 ];
