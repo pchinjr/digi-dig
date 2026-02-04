@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, LayoutGrid, User, Heart } from 'lucide-react';
+import { Camera, LayoutGrid, User, Heart, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useUser } from '@/context/UserContext';
+import { Button } from '@/components/ui/button';
 
 const XPTaskbar = () => {
   const [time, setTime] = useState(new Date());
   const location = useLocation();
+  const { user, logout } = useUser();
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -17,7 +20,7 @@ const XPTaskbar = () => {
   const navItems = [
     { path: '/', icon: <LayoutGrid size={16} />, label: 'Desktop' },
     { path: '/catalog', icon: <Camera size={16} />, label: 'Catalog' },
-    { path: '/profile', icon: <User size={16} />, label: 'Profile' },
+    { path: user ? '/profile' : '/login', icon: <User size={16} />, label: user ? user.username : 'Log In' },
   ];
 
   return (
@@ -54,6 +57,16 @@ const XPTaskbar = () => {
 
       {/* System Tray */}
       <div className="flex items-center bg-[#0997ff] px-4 shadow-inner border-l border-white/20">
+        {user && (
+          <Button 
+            onClick={logout}
+            variant="ghost" 
+            className="h-6 p-1 text-xs font-bold text-white hover:bg-red-500/50 mr-3"
+          >
+            <LogOut size={14} className="mr-1" />
+            Log Out
+          </Button>
+        )}
         <div className="flex items-center gap-3 text-white">
           <Heart size={14} className="text-pink-200 animate-pulse" />
           <span className="text-xs font-bold">

@@ -17,6 +17,17 @@ export interface Photo {
   user: string;
 }
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  location: string;
+  bio: string;
+  avatarUrl: string;
+  ownedCameraIds: string[];
+  wishlistCameraIds: string[];
+}
+
 export const CAMERAS: Camera[] = [
   {
     id: "canon-ixus-70",
@@ -57,6 +68,29 @@ export const CAMERAS: Camera[] = [
     sensorType: "CCD",
     image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&q=80&w=800",
     description: "The most whimsical design of the era. Weather-proof and incredibly stylish."
+  }
+];
+
+export const MOCK_USERS: User[] = [
+  {
+    id: "u1",
+    username: "pixel_queen",
+    email: "queen@digidream.com",
+    location: "Tokyo, JP",
+    bio: "Collecting CCD sensors and chasing that early 2000s aesthetic. Canon IXUS enthusiast. ✨",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=pixel_queen",
+    ownedCameraIds: ["canon-ixus-70", "olympus-mju-mini"],
+    wishlistCameraIds: ["sony-cybershot-t700"],
+  },
+  {
+    id: "u2",
+    username: "retro_boy",
+    email: "retro@digidream.com",
+    location: "London, UK",
+    bio: "Nikon Coolpix fan. The grainier, the better.",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=retro_boy",
+    ownedCameraIds: ["nikon-coolpix-s210"],
+    wishlistCameraIds: ["canon-ixus-70", "olympus-mju-mini"],
   }
 ];
 

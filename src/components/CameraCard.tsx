@@ -7,16 +7,40 @@ import { Heart, Check, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useUser } from '@/context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 interface CameraCardProps {
   camera: CameraType;
-  isOwned?: boolean;
-  isWishlist?: boolean;
-  onToggleOwned?: () => void;
-  onToggleWishlist?: () => void;
 }
 
-const CameraCard = ({ camera, isOwned, isWishlist, onToggleOwned, onToggleWishlist }: CameraCardProps) => {
+const CameraCard = ({ camera }: CameraCardProps) => {
+  const { user, updateUserCollection } = useUser();
+  const navigate = useNavigate();
+
+  const isOwned = user?.ownedCameraIds.includes(camera.id) ?? false;
+  const isWishlist = user?.wishlistCameraIds.includes(camera.id) ?? false;
+
+  const handleToggleOwned = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    const action = isOwned ? 'remove' : 'add';
+    updateUserCollection(camera.id, 'owned', action);
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    const action = isWishlist ? 'remove' : 'add';
+    updateUserCollection(camera.id, 'wishlist', action);
+  };
+
   return (
     <motion.div 
       whileHover={{ y: -5 }}
@@ -30,14 +54,16 @@ const CameraCard = ({ camera, isOwned, isWishlist, onToggleOwned, onToggleWishli
         />
         <div className="absolute top-2 right-2 flex flex-col gap-2">
           <button 
-            onClick={(e) => { e.preventDefault(); onToggleWishlist?.(); }}
+            onClick={handleToggleWishlist}
             className={`rounded-full p-2 backdrop-blur-md transition-colors ${isWishlist ? 'bg-pink-500 text-white' : 'bg-white/80 text-pink-400 hover:bg-pink-50'}`}
+            title={isWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
           >
             <Heart size={18} fill={isWishlist ? "currentColor" : "none"} />
           </button>
           <button 
-            onClick={(e) => { e.preventDefault(); onToggleOwned?.(); }}
+            onClick={handleToggleOwned}
             className={`rounded-full p-2 backdrop-blur-md transition-colors ${isOwned ? 'bg-green-500 text-white' : 'bg-white/80 text-green-400 hover:bg-green-50'}`}
+            title={isOwned ? "Remove from Collection" : "Add to Collection"}
           >
             <Check size={18} />
           </button>
