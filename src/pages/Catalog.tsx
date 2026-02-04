@@ -30,7 +30,7 @@ const Catalog = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
               <Input 
                 placeholder="Search cameras..." 
-                className="pl-9 rounded-full border-gray-300 focus:border-pink-400 h-9 text-sm"
+                className="pl-9 rounded-lg border-gray-300 focus:border-secondary h-9 text-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

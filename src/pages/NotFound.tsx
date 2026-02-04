@@ -18,9 +18,9 @@ const NotFound = () => {
     <AppLayout>
       <AppWindow title="Error 404" className="w-full max-w-lg">
         <div className="text-center py-12">
-          <h1 className="text-6xl font-black text-pink-600 mb-4">404</h1>
+          <h1 className="text-6xl font-black text-secondary mb-4">404</h1>
           <p className="text-xl text-gray-700 mb-6">Oops! The page you are looking for doesn't exist.</p>
-          <Link to="/" className="text-blue-500 hover:text-blue-700 underline font-medium">
+          <Link to="/" className="text-primary hover:text-primary/80 underline font-medium">
             Return to Home
           </Link>
         </div>

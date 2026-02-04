@@ -30,7 +30,7 @@ const Profile = () => {
       <AppLayout>
         <AppWindow title="Loading Profile" className="w-full max-w-4xl">
           <div className="flex flex-col items-center justify-center p-10">
-            <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+            <Loader2 className="h-8 w-8 animate-spin text-secondary" />
             <p className="mt-4 text-sm text-gray-500">Loading user data...</p>
           </div>
         </AppWindow>
@@ -56,7 +56,7 @@ const Profile = () => {
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row items-start gap-8 mb-8 border-b pb-6">
             <div className="relative">
-              <div className="h-24 w-24 rounded-full border-4 border-pink-400 p-1 bg-white shadow-lg overflow-hidden">
+              <div className="h-24 w-24 rounded-full border-4 border-secondary p-1 bg-white shadow-lg overflow-hidden">
                 <img 
                   src={user.avatarUrl} 
                   alt="Avatar" 
@@ -76,7 +76,7 @@ const Profile = () => {
                     <DialogTrigger asChild>
                       <Button 
                         variant="outline" 
-                        className="rounded-full border-blue-300 text-blue-600 hover:bg-blue-50 text-xs font-bold h-8"
+                        className="rounded-lg border-primary/30 text-primary hover:bg-primary/10 text-xs font-bold h-8"
                       >
                         <Settings size={14} className="mr-1" />
                         Edit Profile
@@ -85,8 +85,8 @@ const Profile = () => {
                     <DialogContent className="sm:max-w-[425px] rounded-xl p-6">
                       <DialogHeader>
                         <DialogTitle className="text-xl font-black text-gray-900 flex items-center gap-2">
-                          <User size={20} className="text-purple-500" />
-                          Edit Your Digi-Dream Profile
+                          <User size={20} className="text-primary" />
+                          Edit Your digi-dig Profile
                         </DialogTitle>
                       </DialogHeader>
                       <ProfileEditor onSave={handleProfileSave} />
@@ -96,7 +96,7 @@ const Profile = () => {
                   <Button 
                     onClick={logout}
                     variant="outline" 
-                    className="rounded-full border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold h-8"
+                    className="rounded-lg border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold h-8"
                   >
                     <LogOut size={14} className="mr-1" />
                     Log Out
@@ -104,9 +104,9 @@ const Profile = () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 text-gray-500 text-sm font-medium mb-4">
-                <span className="flex items-center gap-1 text-purple-600"><MapPin size={14} /> {user.location}</span>
+                <span className="flex items-center gap-1 text-primary"><MapPin size={14} /> {user.location}</span>
                 <span className="text-gray-400">|</span>
-                <span className="text-blue-500">{ownedCameras.length} Cameras Owned</span>
+                <span className="text-secondary">{ownedCameras.length} Cameras Owned</span>
               </div>
               <p className="text-sm text-gray-600 max-w-md italic">
                 "{user.bio}"
@@ -118,13 +118,13 @@ const Profile = () => {
             <TabsList className="w-full justify-start bg-gray-100 rounded-lg h-auto p-1 mb-6">
               <TabsTrigger 
                 value="collection" 
-                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md px-6 py-2 text-sm font-bold text-gray-700 data-[state=active]:text-pink-600 transition-all"
+                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md px-6 py-2 text-sm font-bold text-gray-700 data-[state=active]:text-secondary transition-all"
               >
                 My Collection ({ownedCameras.length})
               </TabsTrigger>
               <TabsTrigger 
                 value="wishlist" 
-                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md px-6 py-2 text-sm font-bold text-gray-700 data-[state=active]:text-pink-600 transition-all"
+                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md px-6 py-2 text-sm font-bold text-gray-700 data-[state=active]:text-secondary transition-all"
               >
                 Wishlist ({wishlistCameras.length})
               </TabsTrigger>
@@ -138,7 +138,7 @@ const Profile = () => {
                   ))
                 ) : (
                   <p className="text-gray-500 italic col-span-full p-8 text-center bg-gray-50 rounded-lg border border-dashed">
-                    Your collection is empty. Find your first digicam in the <Link to="/catalog" className="text-pink-500 underline font-semibold">Catalog</Link>!
+                    Your collection is empty. Find your first digicam in the <Link to="/catalog" className="text-secondary underline font-semibold">Catalog</Link>!
                   </p>
                 )}
               </div>

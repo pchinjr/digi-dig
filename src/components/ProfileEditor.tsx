@@ -130,14 +130,14 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex flex-col items-center space-y-4">
-        <div className="relative h-24 w-24 rounded-full border-4 border-pink-400 p-1 bg-white shadow-lg overflow-hidden">
+        <div className="relative h-24 w-24 rounded-full border-4 border-secondary p-1 bg-white shadow-lg overflow-hidden">
           <img 
             src={avatarPreviewUrl} 
             alt="Avatar Preview" 
             className="h-full w-full object-cover rounded-full"
           />
         </div>
-        <Label htmlFor="avatar-upload" className="cursor-pointer inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+        <Label htmlFor="avatar-upload" className="cursor-pointer inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors">
           <Upload size={16} />
           {avatarFile ? 'Change Image' : 'Upload New Avatar'}
         </Label>
@@ -157,7 +157,7 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
             id="firstName" 
             value={formData.firstName}
             onChange={handleChange}
-            className="rounded-lg border-gray-300 focus:border-pink-400"
+            className="rounded-lg border-gray-300 focus:border-secondary"
           />
         </div>
         <div className="space-y-2">
@@ -166,7 +166,7 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
             id="lastName" 
             value={formData.lastName}
             onChange={handleChange}
-            className="rounded-lg border-gray-300 focus:border-pink-400"
+            className="rounded-lg border-gray-300 focus:border-secondary"
           />
         </div>
       </div>
@@ -177,7 +177,7 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
           id="username" 
           value={formData.username}
           onChange={handleChange}
-          className="rounded-lg border-gray-300 focus:border-pink-400"
+          className="rounded-lg border-gray-300 focus:border-secondary"
           required
         />
       </div>
@@ -188,7 +188,7 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
           id="location" 
           value={formData.location}
           onChange={handleChange}
-          className="rounded-lg border-gray-300 focus:border-pink-400"
+          className="rounded-lg border-gray-300 focus:border-secondary"
         />
       </div>
 
@@ -199,13 +199,13 @@ const ProfileEditor = ({ onSave }: ProfileEditorProps) => {
           value={formData.bio}
           onChange={handleChange}
           rows={3}
-          className="rounded-lg border-gray-300 focus:border-pink-400"
+          className="rounded-lg border-gray-300 focus:border-secondary"
         />
       </div>
 
       <Button 
         type="submit" 
-        className="w-full rounded-full bg-purple-500 hover:bg-purple-600 text-white h-10 font-bold shadow-lg shadow-purple-500/30 transition-all"
+        className="w-full rounded-lg bg-primary hover:bg-primary/90 text-white h-10 font-bold shadow-lg shadow-primary/40 transition-all"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

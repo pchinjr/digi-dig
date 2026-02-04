@@ -34,7 +34,7 @@ const LoginPage = () => {
       <AppLayout>
         <AppWindow title="Loading Session" className="w-full max-w-md">
           <div className="flex flex-col items-center justify-center p-10">
-            <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+            <Loader2 className="h-8 w-8 animate-spin text-secondary" />
             <p className="mt-4 text-sm text-gray-500">Checking session...</p>
           </div>
         </AppWindow>
@@ -44,10 +44,10 @@ const LoginPage = () => {
 
   return (
     <AppLayout>
-      <AppWindow title="Log In to Digi-Dream" className="w-full max-w-md">
+      <AppWindow title="Log In to digi-dig" className="w-full max-w-md">
         <div className="space-y-6 p-6">
           <div className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 p-2 text-white flex items-center justify-center mb-2">
+            <div className="mx-auto h-12 w-12 rounded-lg bg-primary p-2 text-primary-foreground flex items-center justify-center mb-2">
               <Camera size={24} />
             </div>
             <h2 className="text-xl font-black text-gray-900">User Authentication</h2>
@@ -63,7 +63,7 @@ const LoginPage = () => {
                 placeholder="user@example.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
+                className="rounded-lg border-gray-300 focus:border-secondary h-10"
                 required
               />
             </div>
@@ -75,13 +75,13 @@ const LoginPage = () => {
                 placeholder="••••••••" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
+                className="rounded-lg border-gray-300 focus:border-secondary h-10"
                 required
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full rounded-full bg-pink-500 hover:bg-pink-600 text-white h-10 font-bold shadow-lg shadow-pink-500/30 transition-all"
+              className="w-full rounded-lg bg-secondary hover:bg-secondary/90 text-white h-10 font-bold shadow-lg shadow-secondary/40 transition-all"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -94,7 +94,7 @@ const LoginPage = () => {
           </form>
           
           <p className="text-center text-sm text-gray-500">
-            Don't have an account? <span className="text-pink-500 font-semibold cursor-pointer hover:underline">Sign Up (Not yet implemented)</span>
+            Don't have an account? <span className="text-secondary font-semibold cursor-pointer hover:underline">Sign Up (Not yet implemented)</span>
           </p>
         </div>
       </AppWindow>
