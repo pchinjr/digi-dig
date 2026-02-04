@@ -7,33 +7,64 @@ import { showSuccess, showError } from '@/utils/toast';
 
 interface PhotoContextType {
   photos: Photo[];
-  uploadPhoto: (cameraId: string) => void;
+  uploadPhoto: (cameraId: string, imageUrl: string) => void;
   getPhotosByCameraId: (cameraId: string) => Photo[];
 }
 
 const PhotoContext = createContext<PhotoContextType | undefined>(undefined);
 
+// Key for localStorage
+const LOCAL_STORAGE_KEY = 'digidream_photos';
+
 // Mock function to generate a unique ID
 let photoCount = initialPhotos.length;
 const generatePhotoId = () => `p${++photoCount}`;
 
+// Function to load photos from localStorage
+const loadPhotos = (): Photo[] => {
+  if (typeof window !== 'undefined') {
+    const storedPhotos = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedPhotos) {
+      try {
+        return JSON.parse(storedPhotos);
+      } catch (e) {
+        console.error("Error parsing photos from localStorage:", e);
+        // Fallback to initial mock data if parsing fails
+        return initialPhotos;
+      }
+    }
+  }
+  return initialPhotos;
+};
+
+// Function to save photos to localStorage
+const savePhotos = (photos: Photo[]) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(photos));
+  }
+};
+
 export const PhotoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
+  // Initialize state from localStorage
+  const [photos, setPhotos] = useState<Photo[]>(loadPhotos);
   const { user } = useUser();
 
-  const uploadPhoto = (cameraId: string) => {
+  // Effect to save photos whenever the state changes
+  React.useEffect(() => {
+    savePhotos(photos);
+  }, [photos]);
+
+  const uploadPhoto = (cameraId: string, imageUrl: string) => {
     if (!user) {
       showError("You must be logged in to upload photos.");
       return;
     }
 
-    // Simulate a successful upload by adding a new mock photo
     const newPhoto: Photo = {
       id: generatePhotoId(),
       cameraId: cameraId,
-      // Using a generic placeholder image for the uploaded photo
-      url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800", 
-      caption: `A new shot uploaded by ${user.username}`,
+      url: imageUrl, // Use the provided image URL (Data URL)
+      caption: `A shot uploaded by ${user.username}`,
       user: user.username,
     };
 

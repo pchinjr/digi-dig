@@ -15,6 +15,7 @@ const CameraDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useUser();
   const { uploadPhoto, getPhotosByCameraId } = usePhotos();
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const camera = CAMERAS.find(c => c.id === id);
   const cameraPhotos = getPhotosByCameraId(id || '');
@@ -28,8 +29,28 @@ const CameraDetail = () => {
   );
 
   const handleUpload = () => {
-    if (id) {
-      uploadPhoto(id);
+    if (!user) {
+      return;
+    }
+    // Trigger the hidden file input click
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        if (id) {
+          uploadPhoto(id, imageUrl); // Pass the Data URL
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    // Reset the input value so the same file can be uploaded again
+    if (fileInputRef.current) {
+        fileInputRef.current.value = '';
     }
   };
 
@@ -74,6 +95,15 @@ const CameraDetail = () => {
               </div>
 
               <div className="flex gap-3">
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  className="hidden"
+                />
+                
                 <Button 
                   onClick={handleUpload}
                   disabled={!user}
