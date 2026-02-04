@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import DesktopLayout from '@/components/DesktopLayout';
-import XPWindow from '@/components/XPWindow';
+import AppLayout from '@/components/AppLayout';
+import AppWindow from '@/components/AppWindow';
 import { CAMERAS } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Upload, Share2, Camera as CameraIcon } from 'lucide-react';
@@ -21,11 +21,11 @@ const CameraDetail = () => {
   const cameraPhotos = getPhotosByCameraId(id || '');
 
   if (!camera) return (
-    <DesktopLayout>
-      <XPWindow title="Error">
+    <AppLayout>
+      <AppWindow title="Error">
         <div className="p-8 text-center">Camera not found</div>
-      </XPWindow>
-    </DesktopLayout>
+      </AppWindow>
+    </AppLayout>
   );
 
   const handleUpload = () => {
@@ -55,28 +55,28 @@ const CameraDetail = () => {
   };
 
   return (
-    <DesktopLayout>
-      <XPWindow title={`Properties: ${camera.brand} ${camera.model}`} className="w-full max-w-5xl h-[85vh]">
-        <div className="flex flex-col h-full">
-          <Link to="/catalog" className="inline-flex items-center text-sm font-bold text-blue-600 hover:underline mb-6">
+    <AppLayout>
+      <AppWindow title={`Details: ${camera.brand} ${camera.model}`} className="w-full max-w-5xl">
+        <div className="flex flex-col">
+          <Link to="/catalog" className="inline-flex items-center text-sm font-bold text-pink-600 hover:underline mb-6">
             <ArrowLeft size={14} className="mr-1" />
             Back to Catalog
           </Link>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="relative">
-              <div className="aspect-square overflow-hidden border-2 border-gray-200 shadow-inner bg-gray-50">
+              <div className="aspect-square overflow-hidden rounded-xl border-4 border-pink-100 shadow-lg bg-gray-50">
                 <img src={camera.image} alt={camera.model} className="h-full w-full object-cover" />
               </div>
-              <div className="absolute -bottom-2 -right-2 h-16 w-16 rounded-full bg-yellow-400 flex items-center justify-center rotate-12 shadow-md border-2 border-white">
-                <span className="font-black text-yellow-900 text-lg">{camera.year}</span>
+              <div className="absolute -bottom-2 -right-2 h-16 w-16 rounded-full bg-purple-400 flex items-center justify-center rotate-6 shadow-xl border-4 border-white">
+                <span className="font-black text-white text-lg">{camera.year}</span>
               </div>
             </div>
 
             <div className="flex flex-col justify-center">
               <div className="mb-6">
                 <h1 className="text-3xl font-black text-gray-900 mb-1">{camera.brand}</h1>
-                <h2 className="text-xl font-bold text-blue-600">{camera.model}</h2>
+                <h2 className="text-xl font-bold text-pink-600">{camera.model}</h2>
               </div>
 
               <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">
@@ -84,12 +84,12 @@ const CameraDetail = () => {
               </p>
 
               <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-gray-50 p-3 border border-gray-200">
-                  <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Resolution</p>
+                <div className="bg-pink-50 p-3 border border-pink-200 rounded-lg">
+                  <p className="text-[9px] font-bold text-pink-400 uppercase tracking-widest mb-1">Resolution</p>
                   <p className="text-lg font-black text-gray-700">{camera.megapixels} MP</p>
                 </div>
-                <div className="bg-gray-50 p-3 border border-gray-200">
-                  <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sensor</p>
+                <div className="bg-blue-50 p-3 border border-blue-200 rounded-lg">
+                  <p className="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1">Sensor</p>
                   <p className="text-lg font-black text-gray-700">{camera.sensorType}</p>
                 </div>
               </div>
@@ -107,12 +107,12 @@ const CameraDetail = () => {
                 <Button 
                   onClick={handleUpload}
                   disabled={!user}
-                  className="flex-1 rounded-none bg-[#3c813c] hover:bg-[#4caf50] text-white h-10 font-bold shadow-[2px_2px_0_rgba(0,0,0,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 rounded-full bg-pink-500 hover:bg-pink-600 text-white h-10 font-bold shadow-lg shadow-pink-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   <Upload size={16} className="mr-2" />
                   Upload Photo
                 </Button>
-                <Button variant="outline" className="rounded-none border-2 border-blue-200 h-10 w-10 p-0 text-blue-600 hover:bg-blue-50">
+                <Button variant="outline" className="rounded-full border-2 border-blue-200 h-10 w-10 p-0 text-blue-600 hover:bg-blue-50">
                   <Share2 size={16} />
                 </Button>
               </div>
@@ -125,7 +125,7 @@ const CameraDetail = () => {
           <div className="border-t border-gray-100 pt-8">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                <CameraIcon size={20} className="text-blue-500" />
+                <CameraIcon size={20} className="text-pink-500" />
                 Sample Gallery
               </h3>
               <span className="text-xs font-bold text-gray-400">{cameraPhotos.length} Photos</span>
@@ -133,7 +133,7 @@ const CameraDetail = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {cameraPhotos.map((photo) => (
-                <div key={photo.id} className="group relative aspect-square overflow-hidden border border-gray-200 bg-gray-50">
+                <div key={photo.id} className="group relative aspect-square overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
                   <img src={photo.url} alt={photo.caption} className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
                     <p className="text-white text-[10px] font-bold">@{photo.user}</p>
@@ -143,8 +143,8 @@ const CameraDetail = () => {
             </div>
           </div>
         </div>
-      </XPWindow>
-    </DesktopLayout>
+      </AppWindow>
+    </AppLayout>
   );
 };
 

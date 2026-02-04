@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import DesktopLayout from '@/components/DesktopLayout';
-import XPWindow from '@/components/XPWindow';
+import AppLayout from '@/components/AppLayout';
+import AppWindow from '@/components/AppWindow';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,8 +29,8 @@ const LoginPage = () => {
   };
 
   return (
-    <DesktopLayout>
-      <XPWindow title="Log In to Digi-Dream" className="w-full max-w-md">
+    <AppLayout>
+      <AppWindow title="Log In to Digi-Dream" className="w-full max-w-md">
         <div className="space-y-6 p-6">
           <div className="text-center">
             <div className="mx-auto h-12 w-12 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 p-2 text-white flex items-center justify-center mb-2">
@@ -49,7 +49,7 @@ const LoginPage = () => {
                 placeholder="pixel_queen" 
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="rounded-none border-gray-300 focus:border-blue-400 h-9"
+                className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
                 required
               />
             </div>
@@ -61,21 +61,21 @@ const LoginPage = () => {
                 placeholder="password" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="rounded-none border-gray-300 focus:border-blue-400 h-9"
+                className="rounded-lg border-gray-300 focus:border-pink-400 h-10"
                 required
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full rounded-none bg-[#3c813c] hover:bg-[#4caf50] text-white h-10 font-bold shadow-[2px_2px_0_rgba(0,0,0,0.2)]"
+              className="w-full rounded-full bg-pink-500 hover:bg-pink-600 text-white h-10 font-bold shadow-lg shadow-pink-500/30 transition-all"
             >
               <LogIn size={16} className="mr-2" />
               Log In
             </Button>
           </form>
         </div>
-      </XPWindow>
-    </DesktopLayout>
+      </AppWindow>
+    </AppLayout>
   );
 };
 

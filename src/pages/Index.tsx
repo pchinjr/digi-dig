@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
-import DesktopLayout from '@/components/DesktopLayout';
-import XPWindow from '@/components/XPWindow';
+import AppLayout from '@/components/AppLayout';
+import AppWindow from '@/components/AppWindow';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -10,18 +10,18 @@ import { Sparkles, ArrowRight, Camera } from 'lucide-react';
 
 const Index = () => {
   return (
-    <DesktopLayout>
-      <XPWindow title="Welcome to Digi-Dream v1.0" className="w-full max-w-3xl">
+    <AppLayout>
+      <AppWindow title="Welcome to Digi-Dream v1.0" className="w-full max-w-3xl">
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-600 text-xs font-bold">
               <Sparkles size={14} />
               System Ready: Nostalgia Loaded
             </div>
             
             <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter leading-none">
               The Social Home for <br />
-              <span className="text-blue-600 italic">Digicam Lovers</span>
+              <span className="text-purple-600 italic">Digicam Lovers</span>
             </h1>
             
             <p className="text-gray-600 font-medium">
@@ -30,13 +30,13 @@ const Index = () => {
 
             <div className="flex flex-wrap gap-3">
               <Link to="/catalog">
-                <Button className="rounded-none bg-[#3c813c] hover:bg-[#4caf50] text-white px-6 h-10 font-bold shadow-[2px_2px_0_rgba(0,0,0,0.2)]">
+                <Button className="rounded-full bg-pink-500 hover:bg-pink-600 text-white px-6 h-10 font-bold shadow-lg shadow-pink-500/30 transition-all">
                   Explore Catalog
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
               </Link>
               <Link to="/profile">
-                <Button variant="outline" className="rounded-none border-2 border-blue-200 text-blue-600 hover:bg-blue-50 px-6 h-10 font-bold">
+                <Button variant="outline" className="rounded-full border-2 border-blue-200 text-blue-600 hover:bg-blue-50 px-6 h-10 font-bold">
                   My Collection
                 </Button>
               </Link>
@@ -68,14 +68,14 @@ const Index = () => {
           <StatCard label="Photos" value="8.5k" />
           <StatCard label="Members" value="4.2k" />
         </div>
-      </XPWindow>
-    </DesktopLayout>
+      </AppWindow>
+    </AppLayout>
   );
 };
 
 const StatCard = ({ label, value }: { label: string, value: string }) => (
   <div className="text-center">
-    <p className="text-2xl font-black text-blue-600">{value}</p>
+    <p className="text-2xl font-black text-purple-600">{value}</p>
     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</p>
   </div>
 );
