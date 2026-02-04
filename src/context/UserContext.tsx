@@ -9,6 +9,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 // Define the Profile structure based on the Supabase table (using camelCase for frontend)
 export interface Profile {
   id: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string; // Derived from auth.user
   location: string;
@@ -26,12 +28,15 @@ interface UserContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUserCollection: (cameraId: string, type: 'owned' | 'wishlist', action: 'add' | 'remove') => Promise<void>;
+  fetchProfile: (userId: string, currentAuthUser: SupabaseAuthUser) => Promise<void>; // Expose fetchProfile for re-fetching after update
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 const mapSupabaseProfileToFrontend = (data: any, authUser: SupabaseAuthUser | null): Profile => ({
   id: data.id,
+  firstName: data.first_name || '',
+  lastName: data.last_name || '',
   username: data.username || authUser?.email?.split('@')[0] || 'User',
   email: authUser?.email || '',
   location: data.location || 'Earth',
@@ -51,6 +56,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   // 1. Fetch Profile Data
   const fetchProfile = async (userId: string, currentAuthUser: SupabaseAuthUser) => {
+    setIsLoading(true);
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -74,8 +80,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(currentSession);
         const user = currentSession?.user ?? null;
         setAuthUser(user);
-        setIsLoading(true);
-
+        
         if (user) {
           // User signed in or session refreshed
           fetchProfile(user.id, user);
@@ -178,6 +183,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     login,
     logout,
     updateUserCollection,
+    fetchProfile,
   }), [session, authUser, profile, isLoading]);
 
   return (

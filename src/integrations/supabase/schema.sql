@@ -36,9 +36,11 @@ LANGUAGE PLPGSQL
 SECURITY DEFINER SET search_path = ''
 AS $$
 BEGIN
-  INSERT INTO public.profiles (id, username, avatar_url, location, bio)
+  INSERT INTO public.profiles (id, first_name, last_name, username, avatar_url, location, bio)
   VALUES (
     new.id,
+    new.raw_user_meta_data ->> 'first_name',
+    new.raw_user_meta_data ->> 'last_name',
     new.email, -- Using email as initial username, user can update later
     'https://api.dicebear.com/7.x/avataaars/svg?seed=' || new.id, -- Generate default avatar
     'Unknown',

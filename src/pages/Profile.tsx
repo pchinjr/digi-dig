@@ -1,18 +1,29 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import AppLayout from '@/components/AppLayout';
 import AppWindow from '@/components/AppWindow';
 import { CAMERAS } from '@/data/mockData';
 import CameraCard from '@/components/CameraCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, LogOut, Loader2 } from 'lucide-react';
+import { MapPin, LogOut, Loader2, Settings, User } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { Link, Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import ProfileEditor from '@/components/ProfileEditor';
 
 const Profile = () => {
-  const { user, logout, isLoading } = useUser();
+  const { user, logout, isLoading, auth, fetchProfile } = useUser();
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+
+  const handleProfileSave = () => {
+    setIsEditorOpen(false);
+    // Re-fetch profile data to update the UI immediately after save
+    if (auth) {
+      fetchProfile(auth.id, auth);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -35,6 +46,10 @@ const Profile = () => {
   const ownedCameras = CAMERAS.filter(c => user.ownedCameraIds.includes(c.id));
   const wishlistCameras = CAMERAS.filter(c => user.wishlistCameraIds.includes(c.id));
 
+  const displayName = user.firstName && user.lastName 
+    ? `${user.firstName} ${user.lastName}` 
+    : user.username;
+
   return (
     <AppLayout>
       <AppWindow title={`Profile: ${user.username}`} className="w-full max-w-4xl">
@@ -55,15 +70,38 @@ const Profile = () => {
 
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
-                <h1 className="text-3xl font-black text-gray-900">{user.username}</h1>
-                <Button 
-                  onClick={logout}
-                  variant="outline" 
-                  className="rounded-full border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold h-8"
-                >
-                  <LogOut size={14} className="mr-1" />
-                  Log Out
-                </Button>
+                <h1 className="text-3xl font-black text-gray-900">{displayName}</h1>
+                <div className="flex gap-2">
+                  <Dialog open={isEditorOpen} onOpenChange={setIsEditorOpen}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="rounded-full border-blue-300 text-blue-600 hover:bg-blue-50 text-xs font-bold h-8"
+                      >
+                        <Settings size={14} className="mr-1" />
+                        Edit Profile
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] rounded-xl p-6">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl font-black text-gray-900 flex items-center gap-2">
+                          <User size={20} className="text-purple-500" />
+                          Edit Your Digi-Dream Profile
+                        </DialogTitle>
+                      </DialogHeader>
+                      <ProfileEditor onSave={handleProfileSave} />
+                    </DialogContent>
+                  </Dialog>
+
+                  <Button 
+                    onClick={logout}
+                    variant="outline" 
+                    className="rounded-full border-red-300 text-red-600 hover:bg-red-50 text-xs font-bold h-8"
+                  >
+                    <LogOut size={14} className="mr-1" />
+                    Log Out
+                  </Button>
+                </div>
               </div>
               <div className="flex items-center gap-4 text-gray-500 text-sm font-medium mb-4">
                 <span className="flex items-center gap-1 text-purple-600"><MapPin size={14} /> {user.location}</span>
@@ -96,7 +134,7 @@ const Profile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {ownedCameras.length > 0 ? (
                   ownedCameras.map((camera) => (
-                    <CameraCard key={camera.id} camera={camera} isOwned={true} />
+                    <CameraCard key={camera.id} camera={camera} />
                   ))
                 ) : (
                   <p className="text-gray-500 italic col-span-full p-8 text-center bg-gray-50 rounded-lg border border-dashed">
@@ -110,7 +148,7 @@ const Profile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {wishlistCameras.length > 0 ? (
                   wishlistCameras.map((camera) => (
-                    <CameraCard key={camera.id} camera={camera} isWishlist={true} />
+                    <CameraCard key={camera.id} camera={camera} />
                   ))
                 ) : (
                   <p className="text-gray-500 italic col-span-full p-8 text-center bg-gray-50 rounded-lg border border-dashed">
