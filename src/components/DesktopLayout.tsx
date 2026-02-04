@@ -3,11 +3,13 @@
 import React from 'react';
 import XPTaskbar from './XPTaskbar';
 import { motion } from 'framer-motion';
+import { Camera, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#003399]">
-      {/* Bliss Background (The iconic XP Hill) */}
+      {/* Bliss Background */}
       <div 
         className="absolute inset-0 z-0 opacity-80"
         style={{
@@ -17,13 +19,16 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
         }}
       />
       
-      {/* Aceternity-inspired Sparkles/Beams Overlay */}
       <div className="absolute inset-0 z-1 bg-gradient-to-t from-blue-900/20 to-transparent pointer-events-none" />
       
-      {/* Desktop Icons (Static for aesthetic) */}
+      {/* Desktop Icons */}
       <div className="absolute left-4 top-4 z-10 flex flex-col gap-8">
-        <DesktopIcon icon={<Camera className="text-white" />} label="My Cameras" />
-        <DesktopIcon icon={<User className="text-white" />} label="My Profile" />
+        <Link to="/catalog">
+          <DesktopIcon icon={<Camera className="text-white" />} label="My Cameras" />
+        </Link>
+        <Link to="/profile">
+          <DesktopIcon icon={<User className="text-white" />} label="My Profile" />
+        </Link>
       </div>
 
       {/* Main Content Area */}
@@ -47,7 +52,5 @@ const DesktopIcon = ({ icon, label }: { icon: React.ReactNode, label: string }) 
     <span className="text-[10px] font-bold text-white text-center drop-shadow-md leading-tight">{label}</span>
   </motion.div>
 );
-
-import { Camera, User } from 'lucide-react';
 
 export default DesktopLayout;
