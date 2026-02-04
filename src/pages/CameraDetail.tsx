@@ -4,15 +4,20 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DesktopLayout from '@/components/DesktopLayout';
 import XPWindow from '@/components/XPWindow';
-import { CAMERAS, PHOTOS } from '@/data/mockData';
+import { CAMERAS } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Upload, Share2, Camera as CameraIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { usePhotos } from '@/context/PhotoContext';
+import { useUser } from '@/context/UserContext';
 
 const CameraDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const { user } = useUser();
+  const { uploadPhoto, getPhotosByCameraId } = usePhotos();
+
   const camera = CAMERAS.find(c => c.id === id);
-  const cameraPhotos = PHOTOS.filter(p => p.cameraId === id);
+  const cameraPhotos = getPhotosByCameraId(id || '');
 
   if (!camera) return (
     <DesktopLayout>
@@ -21,6 +26,12 @@ const CameraDetail = () => {
       </XPWindow>
     </DesktopLayout>
   );
+
+  const handleUpload = () => {
+    if (id) {
+      uploadPhoto(id);
+    }
+  };
 
   return (
     <DesktopLayout>
@@ -63,7 +74,11 @@ const CameraDetail = () => {
               </div>
 
               <div className="flex gap-3">
-                <Button className="flex-1 rounded-none bg-[#3c813c] hover:bg-[#4caf50] text-white h-10 font-bold shadow-[2px_2px_0_rgba(0,0,0,0.2)]">
+                <Button 
+                  onClick={handleUpload}
+                  disabled={!user}
+                  className="flex-1 rounded-none bg-[#3c813c] hover:bg-[#4caf50] text-white h-10 font-bold shadow-[2px_2px_0_rgba(0,0,0,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <Upload size={16} className="mr-2" />
                   Upload Photo
                 </Button>
@@ -71,6 +86,9 @@ const CameraDetail = () => {
                   <Share2 size={16} />
                 </Button>
               </div>
+              {!user && (
+                <p className="text-xs text-red-500 mt-2">Log in to upload photos.</p>
+              )}
             </div>
           </div>
 
