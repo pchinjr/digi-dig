@@ -8,13 +8,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Camera, LogIn } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useUser();
+  const { user, login } = useUser();
   const navigate = useNavigate();
+
+  // If the user is already logged in, redirect them to the profile page
+  if (user) {
+    return <Navigate to="/profile" replace />;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
